@@ -50,6 +50,9 @@ from models.crawlers import (
     prestige,
     theporndb,
     xcity,
+    javhdporn,
+    local,
+    fc2cm,
 )
 from models.entity.enums import FileMode
 
@@ -191,6 +194,9 @@ def _call_crawler(
         "prestige": prestige.main,
         "kin8": kin8.main,
         "javday": javday.main,
+        "javhdporn": javhdporn.main,
+        "local": local.main,
+        "fc2cm": fc2cm.main,
     }
     if website == "official":
         res = json.loads(official.main(file_number, appoint_url, language))
@@ -266,6 +272,12 @@ def _call_crawler(
         res = json.loads(kin8.main(file_number, appoint_url, language))
     elif website == "javday":
         res = json.loads(javday.main(file_number, appoint_url, language))
+    elif website == "javhdporn":
+        res = json.loads(javhdporn.main(file_number, appoint_url, language))
+    elif website == "local":
+        res = json.loads(local.main(file_number, appoint_url, language))
+    elif website == "fc2cm":
+        res = json.loads(fc2cm.main(file_number, appoint_url, language))
     else:
         res = json.loads(javdb.main(file_number, appoint_url, language))
 

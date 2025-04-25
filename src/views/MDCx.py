@@ -3781,6 +3781,8 @@ class Ui_MDCx(object):
         self.comboBox_website_all.addItem("")
         self.comboBox_website_all.addItem("")
         self.comboBox_website_all.addItem("")
+        self.comboBox_website_all.addItem("")
+        self.comboBox_website_all.addItem("")
         self.gridLayout_28.addWidget(self.comboBox_website_all, 3, 1, 1, 1)
         self.label_315 = QtWidgets.QLabel(self.layoutWidget2)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
@@ -11234,6 +11236,8 @@ class Ui_MDCx(object):
         self.comboBox_website_all.setItemText(32, _translate("MDCx", "dahlia"))
         self.comboBox_website_all.setItemText(33, _translate("MDCx", "prestige"))
         self.comboBox_website_all.setItemText(34, _translate("MDCx", "javday"))
+        self.comboBox_website_all.setItemText(35, _translate("MDCx", "javhdporn"))
+        self.comboBox_website_all.setItemText(36, _translate("MDCx", "fc2cm"))
         self.label_315.setText(
             _translate("MDCx", "⚠️ 下载剧照、预告片，请选择「字段优先」或「指定网站」！「速度优先」信息不全！")
         )

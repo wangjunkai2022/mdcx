@@ -6,6 +6,7 @@
 
 import json
 import os
+import random
 import re
 import shutil
 import subprocess
@@ -400,3 +401,63 @@ def get_movie_path_setting(file_path="") -> tuple[str, str, str, list[str], str,
         extrafanart_folder,
         softlink_path,
     )
+
+# 生成临时的截图10张
+def save_tmp_frame_from_video(
+    video_path: str, img_count: int = 10, def_save_path: str = "./tmp_img"
+) -> list[str]:
+    img_paths = []
+    # 打开视频文件
+    cap = cv2.VideoCapture(video_path)
+    if not cap.isOpened():
+        return img_paths
+
+    # 获取视频的总帧数
+    frame_count = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
+
+    # 获取视频的帧率 (FPS)
+    fps = cap.get(cv2.CAP_PROP_FPS)
+
+    # 计算视频总时长 (秒)
+    total_length = frame_count / fps
+
+    # 分img_count次每次多少秒
+    sv_number = total_length / img_count
+
+    for num in range(img_count):
+        seconds = (num) * random.randint(
+            int(sv_number - sv_number * 0.9), int(sv_number + sv_number * 0.9)
+        )
+        if seconds <= 0:
+            seconds = 1
+        if seconds >= total_length:
+            seconds = total_length - 1
+        # 计算目标帧的位置
+        target_frame = int(fps * seconds)
+
+        # 设置视频位置到目标帧
+        cap.set(cv2.CAP_PROP_POS_FRAMES, target_frame)
+
+        # 读取该帧
+        success, frame = cap.read()
+
+        if success:
+            # 保存图像
+            img_path = f"{def_save_path}/{num}.jpg"
+            # 获取文件夹路径
+            folder_path = os.path.dirname(img_path)
+
+            # 检查文件夹是否存在，如果不存在则创建
+            if not os.path.exists(folder_path):
+                os.makedirs(folder_path)
+            else:
+                pass
+            cv2.imwrite(img_path, frame)
+            print(f"已保存帧为图像: {img_path}")
+            img_paths.append(img_path)
+        else:
+            print("无法读取帧")
+
+    # 释放视频对象
+    cap.release()
+    return img_paths

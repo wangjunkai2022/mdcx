@@ -130,6 +130,7 @@ def Init_Singal(self):
     signal.exec_show_list_name.connect(self.show_list_name)
     signal.exec_exit_app.connect(self.exit_app)
     signal.logs_failed_show.connect(self.Ui.textBrowser_log_main_3.append)
+    signal.select_img_show.connect(self.show_select_img)
     # endregion
 
     # region 控件点击

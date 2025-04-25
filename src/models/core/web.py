@@ -20,7 +20,7 @@ from models.base.web import check_url, get_amazon_data, get_big_pic_by_google, g
 from models.config.config import config
 from models.core.flags import Flags
 from models.core.json_data import ImageContext, JsonData, LogBuffer
-from models.core.utils import convert_half
+from models.core.utils import convert_half, save_tmp_frame_from_video
 from models.signals import signal
 
 
@@ -711,6 +711,15 @@ def thumb_download(json_data: ImageContext, folder_new_path: str, thumb_final_pa
         if "ignore_pic_fail" in config.download_files:
             LogBuffer.log().write("\n 🟠 Thumb download failed! (你已勾选「图片下载失败时，不视为失败！」) ")
             LogBuffer.log().write(f"\n 🍀 Thumb done! (none)({get_used_time(start_time)}s)")
+            if True:
+                LogBuffer.log().write(f"\n 当前开始复制截图为 Thumb")
+                imagses = select_imgs(json_data, "选择需要作为 Thumb 的截图 注意这里只需要一张 也只会用到第一张")
+                json_data["cover_from"] = "复制截图"
+                extrafanart_count = 0
+                for img_path in imagses:
+                    move_file(img_path, thumb_final_path)
+                    LogBuffer.log().write(f"\n 已复制截图{img_path} 到{thumb_final_path}")
+                    break
             return True
         else:
             LogBuffer.log().write(
@@ -827,6 +836,15 @@ def poster_download(json_data: JsonData, folder_new_path: str, poster_final_path
         if "ignore_pic_fail" in download_files:
             LogBuffer.log().write("\n 🟠 Poster download failed! (你已勾选「图片下载失败时，不视为失败！」) ")
             LogBuffer.log().write(f"\n 🍀 Poster done! (none)({get_used_time(start_time)}s)")
+            if True:
+                LogBuffer.log().write(f"\n 当前开始复制截图为 Poster")
+                imagses = select_imgs(json_data, "选择需要作为 Poster 的截图 注意这里只需要一张 也只会用到第一张")
+                json_data["poster_from"] = "复制截图"
+                extrafanart_count = 0
+                for img_path in imagses:
+                    move_file(img_path, poster_final_path)
+                    LogBuffer.log().write(f"\n 已复制截图{img_path} 到{poster_final_path}")
+                    break
             return True
         else:
             LogBuffer.log().write(
@@ -860,6 +878,15 @@ def poster_download(json_data: JsonData, folder_new_path: str, poster_final_path
         if "ignore_pic_fail" in download_files:
             LogBuffer.log().write("\n 🟠 Poster cut failed! (你已勾选「图片下载失败时，不视为失败！」) ")
             LogBuffer.log().write(f"\n 🍀 Poster done! (none)({get_used_time(start_time)}s)")
+            if True:
+                LogBuffer.log().write(f"\n 当前开始复制截图为 Poster")
+                imagses = select_imgs(json_data, "选择需要作为 Poster 的截图 注意这里只需要一张 也只会用到第一张")
+                json_data["poster_from"] = "复制截图"
+                extrafanart_count = 0
+                for img_path in imagses:
+                    move_file(img_path, poster_final_path)
+                    LogBuffer.log().write(f"\n 已复制截图{img_path} 到{poster_final_path}")
+                    break
             return True
         else:
             LogBuffer.log().write(
@@ -932,6 +959,15 @@ def fanart_download(json_data: JsonData, fanart_final_path: str) -> bool:
             if "ignore_pic_fail" in download_files:
                 LogBuffer.log().write("\n 🟠 Fanart failed! (你已勾选「图片下载失败时，不视为失败！」) ")
                 LogBuffer.log().write(f"\n 🍀 Fanart done! (none)({get_used_time(start_time)}s)")
+                if True:
+                    LogBuffer.log().write(f"\n 当前开始复制截图为 Fanart")
+                    imagses = select_imgs(json_data, "选择需要作为 Fanart 的截图 注意这里只需要一张 也只会用到第一张")
+                    json_data["fanart_from"] = "复制截图"
+                    extrafanart_count = 0
+                    for img_path in imagses:
+                        move_file(img_path, fanart_final_path)
+                        LogBuffer.log().write(f"\n 已复制截图{img_path} 到{fanart_final_path}")
+                        break
                 return True
             else:
                 LogBuffer.log().write(
@@ -1013,6 +1049,23 @@ def extrafanart_download(json_data: JsonData, folder_new_path: str) -> Optional[
         LogBuffer.log().write(f"\n 🍀 ExtraFanart done! (old)({get_used_time(start_time)}s)")
         return True
 
+    if "ignore_pic_fail" in download_files:
+        if True:
+            LogBuffer.log().write(f"\n 当前开始复制截图为 剧照")
+            imagses = select_imgs(json_data, "选择需要作为 剧照 的截图")
+            json_data["extrafanart_from"] = "复制截图"
+            if not os.path.exists(extrafanart_folder_path):
+                os.mkdir(extrafanart_folder_path)
+            extrafanart_count = 0
+            for img_path in imagses:
+                extrafanart_count += 1
+                extrafanart_name = "fanart" + str(extrafanart_count) + ".jpg"
+                copy_file(
+                    img_path,
+                    os.path.join(extrafanart_folder_path, extrafanart_name),
+                )
+                LogBuffer.log().write(f"\n 已复制截图{img_path} 到{extrafanart_name}")
+
 
 def show_netstatus() -> None:
     signal.show_net_info(time.strftime("%Y-%m-%d %H:%M:%S").center(80, "="))
@@ -1043,3 +1096,12 @@ def check_proxyChange() -> None:
             signal.show_net_info("\n🌈 代理设置已改变：")
             show_netstatus()
     Flags.current_proxy = new_proxy
+
+
+def select_imgs(json_data, tips):
+    imagses = []
+    if json_data.get("file_path"):
+        imagses = save_tmp_frame_from_video(json_data["file_path"])
+    if len(imagses) > 0:
+        imagses = signal.get_select_imgs(imagses, tips)
+    return imagses

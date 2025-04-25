@@ -74,6 +74,8 @@ class ManualConfig:
         "prestige",
         "theporndb",
         "xcity",
+        "javhdporn",
+        "cf2cm",
     ]
 
     # 刮削过程所需预设值
@@ -537,6 +539,9 @@ class ManualConfig:
         "fantastica": "fantastica",
         "theporndb": "theporndb",
         "prestige": "prestige",
+        "javhdporn": "javhdporn",
+        "local": "local",
+        "fc2cm": "fc2cm",
     }
     char_list = [
         "[高清] (中文字幕)",

@@ -11,7 +11,7 @@
 import threading
 import time
 
-from PyQt5.QtCore import QObject, pyqtSignal
+from PyQt5.QtCore import QObject, pyqtSignal, QEventLoop
 
 from models.base.utils import singleton
 
@@ -34,6 +34,12 @@ class Signals(QObject):
     view_failed_list_settext = pyqtSignal(str)
     exec_show_list_name = pyqtSignal(str, str, object, str)
     logs_failed_show = pyqtSignal(str)  # 失败面板添加信息日志信号
+    
+    # 图片选择器
+    _select_imgs_rules = []
+    select_img_show = pyqtSignal(list, str)  # 打开图片选择器
+    selected_img = pyqtSignal(list)  # 或图片选择器选择的图片
+    close_re_outtime_selected_img = pyqtSignal()  # 图片选择器重置关闭倒计时
 
     # endregion
     def __init__(self):
@@ -41,6 +47,7 @@ class Signals(QObject):
         self.log_lock = threading.Lock()
         self.detail_log_list = []
         self.stop = False
+        self.selected_img.connect(self._selected_callback)
 
     def add_log(self, *text):
         if self.stop:
@@ -81,6 +88,24 @@ class Signals(QObject):
         real_number="",
     ):
         self.exec_show_list_name.emit(filename, result, json_data, real_number)
+
+    def _selected_callback(self, imgs):
+        self._select_imgs_rules.extend(imgs)
+
+    # 发送选择图片ok
+    def send_ok_select_imgs(self, imgs):
+        self.selected_img.emit(imgs)
+
+    def get_select_imgs(self, img_list, title):
+        # 发出信号以打开选择器
+        self.select_img_show.emit(img_list, title)
+        # 使用 QEventLoop 来等待信号
+        loop = QEventLoop()
+        # 当接收到信号时退出事件循环
+        self.selected_img.connect(loop.quit)
+        loop.exec()  # 进入事件循环，直到 quit 被调用
+        self.selected_img.disconnect(loop.quit)  # 断开用于退出循环的连接
+        return self._select_imgs_rules
 
 
 signal = Signals()
