@@ -314,6 +314,7 @@ timed_interval = {self.timed_interval}
 rest_count = {self.rest_count}
 rest_time = {self.rest_time}
 statement = {self.statement}
+video_screenshot = {self.video_screenshot}
 """,
                 file=code,
             )

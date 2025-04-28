@@ -199,6 +199,7 @@ def Init_Singal(self):
     self.Ui.checkBox_cover.stateChanged.connect(self.checkBox_cover_clicked)
     self.Ui.checkBox_i_agree_clean.stateChanged.connect(self.checkBox_i_agree_clean_clicked)
     self.Ui.checkBox_cd_part_a.stateChanged.connect(self.checkBox_cd_part_a_clicked)
+    self.Ui.checkBox_screenshot.stateChanged.connect(self.checkBox_screenshot_clicked)
     self.Ui.checkBox_i_understand_clean.stateChanged.connect(self.checkBox_i_agree_clean_clicked)
     self.Ui.horizontalSlider_timeout.valueChanged.connect(self.lcdNumber_timeout_change)
     self.Ui.horizontalSlider_retry.valueChanged.connect(self.lcdNumber_retry_change)

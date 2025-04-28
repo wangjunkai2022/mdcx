@@ -227,6 +227,7 @@ class GeneratedConfig:
     rest_count = 20
     rest_time = r"00:01:02"
     statement = 3
+    video_screenshot = r"off"
     CONFIG_STR = f"""
 [modified_time]
 modified_time = {time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())}
@@ -450,4 +451,6 @@ switch_on = {switch_on}
 timed_interval = {timed_interval}
 rest_count = {rest_count}
 rest_time = {rest_time}
-statement = {statement}"""
+statement = {statement}
+video_screenshot = {video_screenshot}
+"""

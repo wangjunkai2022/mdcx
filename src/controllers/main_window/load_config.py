@@ -819,6 +819,8 @@ def load_config(self):
         self.Ui.checkBox_cd_part_point.setChecked("point" in cd_char)
         # endregion
 
+        self.Ui.checkBox_screenshot.setChecked("on" in config.video_screenshot)
+
         pic_name = int(config.pic_name)  # 图片命名规则
         if pic_name == 0:
             self.Ui.radioButton_pic_with_filename.setChecked(True)

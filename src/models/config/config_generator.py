@@ -246,7 +246,8 @@ switch_on = {switch_on}
 timed_interval = {timed_interval}
 rest_count = {rest_count}
 rest_time = {rest_time}
-statement = {statement}"""
+statement = {statement}
+video_screenshot = {video_screenshot}"""
 '''
 ]
 

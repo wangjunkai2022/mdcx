@@ -2079,6 +2079,9 @@ class MyMAinWindow(QMainWindow):
         else:
             self.Ui.checkBox_cd_part_c.setEnabled(False)
 
+    def checkBox_screenshot_clicked(self):
+        config.video_screenshot = self.Ui.checkBox_screenshot.isChecked() and "on" or "off"
+
     # 设置-刮削目录-同意清理(我已知晓/我已同意)
     def checkBox_i_agree_clean_clicked(self):
         if self.Ui.checkBox_i_understand_clean.isChecked() and self.Ui.checkBox_i_agree_clean.isChecked():
@@ -2326,8 +2329,8 @@ class MyMAinWindow(QMainWindow):
             self.Ui.textBrowser_net_main.append(traceback.format_exc())
 
     # 显示截图选择器
-    def show_select_img(self, img_list,tips):
-        select_img_dialog = ImageSelectionDialog(img_list,tips)
+    def show_select_img(self, img_list, tips):
+        select_img_dialog = ImageSelectionDialog(img_list, tips)
         select_img_dialog.exec()
         
     # 检查javdb cookie

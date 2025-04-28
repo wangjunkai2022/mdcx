@@ -613,11 +613,12 @@ class ImageSelectionDialog(QDialog):
     def __init__(self, images: list[str], title: str = "选择图片", timeout: int = 60 * 1000):
         super().__init__()
         self._img_data.all_images = images
+        self._img_data.select_image_paths = []
         self.timeout = timeout
         self.setWindowTitle(title)
-        self.setGeometry(100, 100, 800, 600)  # 设置默认窗口尺寸
+        self.setGeometry(100, 100, 300, 300)  # 设置默认窗口尺寸
 
-        self.thumbnail_interval = 20  # 每个缩略图之间的间隔
+        self.thumbnail_interval = 10  # 每个缩略图之间的间隔
 
         # 创建主布局
         main_layout = QVBoxLayout()

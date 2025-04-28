@@ -215,4 +215,5 @@ timed_interval = 00:30:00
 rest_count = 20
 rest_time = 00:01:02
 statement = 3
+video_screenshot = off
 

@@ -616,6 +616,9 @@ def save_config(self):
     if self.Ui.checkBox_cd_part_point.isChecked():  # 小数点分隔符
         config.cd_char += "point,"
 
+    if self.Ui.checkBox_screenshot.isChecked():
+        config.video_screenshot = "on" # 是否截屏
+
     if self.Ui.radioButton_pic_with_filename.isChecked():  # 图片命名规则-加文件名
         config.pic_name = 0
     else:  # 图片命名规则-不加文件名

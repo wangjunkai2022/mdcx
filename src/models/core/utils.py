@@ -411,7 +411,10 @@ def save_tmp_frame_from_video(
     cap = cv2.VideoCapture(video_path)
     if not cap.isOpened():
         return img_paths
-
+    
+    if def_save_path[-1] == "/":
+        def_save_path = def_save_path[0:-1]
+        
     # 获取视频的总帧数
     frame_count = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
 
